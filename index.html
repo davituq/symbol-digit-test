@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbol-Digit Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
+        .legend { font-size: 1.5em; margin-top: 20px; line-height: 2em; }
+        .hidden { display: none; }
+        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px auto; max-width: 300px; }
+        .numpad button { font-size: 2em; padding: 20px; background-color: #5cb85c; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .numpad button:hover { background-color: #4cae4c; }
+        .numpad button:disabled { background-color: #ccc; }
+        #timer { font-size: 2em; margin-top: 20px; color: #333; }
+    </style>
+</head>
+<body>
+    <!-- Tela inicial com título e botão -->
+    <div id="start-screen">
+        <h1>Bem-vindo ao Symbol-Digit Test</h1>
+        <p style="font-size: 1.5em;">Neste teste, você deve clicar no número correspondente ao símbolo exibido.</p>
+        <button id="start-button" onclick="startTest()">Começar</button>
+    </div>
+
+    <!-- Tela do teste que ficará oculta inicialmente -->
+    <div id="test-screen" class="hidden">
+        <h1>Symbol-Digit Test</h1>
+
+        <!-- Legenda de correspondência entre símbolos e números -->
+        <div class="legend">
+            <strong>Legenda:</strong><br>
+            ◯ = 1 &nbsp;&nbsp;&nbsp; △ = 2 &nbsp;&nbsp;&nbsp; □ = 3 &nbsp;&nbsp;&nbsp; ◇ = 4 <br>
+            ★ = 5 &nbsp;&nbsp;&nbsp; ✖ = 6 &nbsp;&nbsp;&nbsp; ＋ = 7 &nbsp;&nbsp;&nbsp; ＝ = 8 &nbsp;&nbsp;&nbsp; ※ = 9
+        </div>
+
+        <!-- Área do símbolo -->
+        <div id="symbol-area" style="font-size: 2.5em; margin-top: 20px;">Símbolo: ?</div>
+
+        <!-- Numpad para responder -->
+        <div class="numpad">
+            <button onclick="submitAnswer(1)">1</button>
+            <button onclick="submitAnswer(2)">2</button>
+            <button onclick="submitAnswer(3)">3</button>
+            <button onclick="submitAnswer(4)">4</button>
+            <button onclick="submitAnswer(5)">5</button>
+            <button onclick="submitAnswer(6)">6</button>
+            <button onclick="submitAnswer(7)">7</button>
+            <button onclick="submitAnswer(8)">8</button>
+            <button onclick="submitAnswer(9)">9</button>
+        </div>
+
+        <!-- Cronômetro -->
+        <div id="timer">Tempo restante: 90s</div>
+
+        <!-- Mensagem de feedback -->
+        <div id="message" style="font-size: 1.8em; margin-top: 20px;"></div>
+    </div>
+
+    <script>
+        let symbols = ["◯", "△", "□", "◇", "★", "✖", "＋", "＝", "※"];
+        let correctSymbolMap = { "◯": 1, "△": 2, "□": 3, "◇": 4, "★": 5, "✖": 6, "＋": 7, "＝": 8, "※": 9 };
+        let currentSymbol = "";
+        let timer = 90;
+        let correctAnswers = 0;
+        let attempts = 0;
+        let interval;
+
+        function startTest() {
+            // Esconder tela inicial e mostrar a tela de teste
+            document.getElementById("start-screen").classList.add('hidden');
+            document.getElementById("test-screen").classList.remove('hidden');
+
+            // Iniciar o teste
+            randomizeSymbol();
+            interval = setInterval(updateTimer, 1000); 
+        }
+
+        function randomizeSymbol() {
+            let randomIndex = Math.floor(Math.random() * symbols.length);
+            currentSymbol = symbols[randomIndex];
+            document.getElementById("symbol-area").innerText = "Símbolo: " + currentSymbol;
+        }
+
+        function submitAnswer(number) {
+            if (timer > 0) { 
+                attempts++; 
+
+                if (number === correctSymbolMap[currentSymbol]) {
+                    correctAnswers++; 
+                    document.getElementById("message").innerText = "Correto!";
+                } else {
+                    document.getElementById("message").innerText = "Incorreto!";
+                }
+
+                randomizeSymbol(); 
+            }
+        }
+
+        function updateTimer() {
+            if (timer > 0) {
+                timer--;
+                document.getElementById("timer").innerText = "Tempo restante: " + timer + "s";
+            } else {
+                endTest(); 
+            }
+        }
+
+        function endTest() {
+            clearInterval(interval); 
+            document.querySelectorAll('.numpad button').forEach(button => button.disabled = true); 
+            document.getElementById("message").innerText = `Fim do teste! Você acertou ${correctAnswers} de ${attempts} tentativas.`; 
+        }
+    </script>
+</body>
+</html>
