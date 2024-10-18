@@ -5,23 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symbol-Digit Test</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; }
+        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
         .key-table { margin: 20px auto; }
         table { border-collapse: collapse; }
         td, th { border: 1px solid black; padding: 10px; }
-        #symbol-area { margin-top: 30px; font-size: 2em; }
+        #symbol-area { margin-top: 30px; font-size: 2em; background-color: #fff; padding: 20px; border-radius: 10px; display: inline-block; }
         #input-area { margin-top: 20px; }
-        #timer { font-size: 1.5em; margin-top: 20px; }
+        #timer { font-size: 1.5em; margin-top: 20px; color: #333; }
         .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px auto; max-width: 200px; }
-        .numpad button { font-size: 1.5em; padding: 15px; }
+        .numpad button { font-size: 1.5em; padding: 15px; background-color: #5cb85c; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .numpad button:hover { background-color: #4cae4c; }
+        .numpad button:disabled { background-color: #ccc; }
+        #message { font-size: 1.2em; margin-top: 10px; }
+        #start-button { padding: 10px 20px; font-size: 1.2em; background-color: #0275d8; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        #start-button:hover { background-color: #025aa5; }
     </style>
 </head>
 <body>
     <h1>Symbol-Digit Test</h1>
-    <div id="symbol-area">Símbolo: ?</div>
-    <div id="timer">Tempo restante: 90s</div>
 
-    <div class="numpad">
+    <div id="start-container">
+        <button id="start-button" onclick="startTest()">Começar</button>
+    </div>
+
+    <div id="symbol-area" style="display:none;">Símbolo: ?</div>
+    <div id="timer" style="display:none;">Tempo restante: 90s</div>
+
+    <div class="numpad" style="display:none;">
         <button onclick="submitAnswer(1)">1</button>
         <button onclick="submitAnswer(2)">2</button>
         <button onclick="submitAnswer(3)">3</button>
@@ -33,15 +43,25 @@
         <button onclick="submitAnswer(9)">9</button>
     </div>
 
+    <div id="message"></div>
+
     <script>
-        let symbols = ["?", "!", "@", "#", "$", "%", "^", "&", "*"]; // Substitua pelos símbolos reais
+        let symbols = ["◯", "△", "□", "◇", "★", "✖", "＋", "＝", "※"]; // Símbolos do PDF
+        let correctSymbolMap = { "◯": 1, "△": 2, "□": 3, "◇": 4, "★": 5, "✖": 6, "＋": 7, "＝": 8, "※": 9 }; // Correspondências
         let currentSymbol = "";
         let timer = 90;
         let correctAnswers = 0;
+        let attempts = 0;
+        let interval;
 
         function startTest() {
+            document.getElementById("start-container").style.display = 'none';
+            document.getElementById("symbol-area").style.display = 'inline-block';
+            document.getElementById("timer").style.display = 'block';
+            document.querySelector(".numpad").style.display = 'grid';
+
             randomizeSymbol();
-            setInterval(updateTimer, 1000);
+            interval = setInterval(updateTimer, 1000); // Iniciar contagem de tempo
         }
 
         function randomizeSymbol() {
@@ -51,8 +71,15 @@
         }
 
         function submitAnswer(number) {
-            // Aqui seria validado se o número corresponde ao símbolo
-            randomizeSymbol(); // Pegar o próximo símbolo
+            // Verificar se o número corresponde ao símbolo
+            if (number === correctSymbolMap[currentSymbol]) {
+                correctAnswers++;
+                document.getElementById("message").innerText = "Correto!";
+            } else {
+                document.getElementById("message").innerText = "Incorreto!";
+            }
+            attempts++;
+            randomizeSymbol();
         }
 
         function updateTimer() {
@@ -60,11 +87,12 @@
                 timer--;
                 document.getElementById("timer").innerText = "Tempo restante: " + timer + "s";
             } else {
-                alert("Fim do teste! Sua pontuação: " + correctAnswers);
+                endTest();
             }
         }
 
-        window.onload = startTest;
-    </script>
-</body>
-</html>
+        function endTest() {
+            clearInterval(interval);
+            document.querySelectorAll('.numpad button').forEach(button => button.disabled = true);
+            document.getElementById("message").innerText = "Fim do teste! Você acertou " + correctAnswers + " de " + attempts + " tentativas.";
+      
