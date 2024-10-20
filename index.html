@@ -5,45 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Symbol-Digit Test</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; background-color: #f4f4f4; }
-        .legend { font-size: 1.5em; margin-top: 20px; line-height: 2em; }
+        body { 
+            font-family: Arial, sans-serif; 
+            text-align: center; 
+            background-color: #f4f4f4; 
+            margin: 0;
+            padding: 0;
+        }
+        .legend { 
+            font-size: 1.2em; 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: nowrap; 
+            gap: 10px; 
+            padding: 10px;
+            overflow-x: auto;
+            background-color: #fff; 
+            border-radius: 8px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
         .hidden { display: none; }
-        .numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 20px auto; max-width: 300px; }
-        .numpad button { font-size: 2em; padding: 20px; background-color: #003366; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        .numpad button:hover { background-color: #002244; } /* Tom mais escuro de azul ao passar o mouse */
-        .numpad button:disabled { background-color: #ccc; } /* Cor para botões desabilitados */
-        #timer { font-size: 2em; margin-top: 20px; color: #333; }
-        img { width: 50px; height: 50px; }
+        .numpad { 
+            display: flex; 
+            justify-content: center; 
+            gap: 10px;
+            margin-top: 20px; 
+        }
+        .numpad button { 
+            font-size: 1.5em; 
+            padding: 10px; 
+            background-color: #003366; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .numpad button:hover { background-color: #002244; }
+        .numpad button:disabled { background-color: #ccc; }
+        #timer { 
+            font-size: 1.8em; 
+            margin-top: 20px; 
+            color: #333; 
+        }
+        img { 
+            width: 50px; 
+            height: 50px; 
+        }
+        #symbol-area {
+            font-size: 2em; 
+            margin-top: 20px;
+        }
+        @media (orientation: landscape) {
+            .legend {
+                font-size: 1.1em;
+            }
+            .numpad button {
+                font-size: 1.3em;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Tela inicial com título e botão -->
     <div id="start-screen">
         <h1>Bem-vindo ao Symbol-Digit Test</h1>
-        <p style="font-size: 1.5em;">Neste teste, você deve clicar no número correspondente ao símbolo exibido.</p>
+        <p style="font-size: 1.2em;">Neste teste, você deve clicar no número correspondente ao símbolo exibido.</p>
         <button id="start-button" onclick="startTest()">Começar</button>
     </div>
 
-    <!-- Tela do teste que ficará oculta inicialmente -->
     <div id="test-screen" class="hidden">
         <h1>Symbol-Digit Test</h1>
 
         <!-- Legenda de correspondência entre símbolos e números -->
         <div class="legend">
-            <strong>Legenda:</strong><br>
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol1.png" alt="Símbolo 1"> = 1 &nbsp;&nbsp;&nbsp; 
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol2.png" alt="Símbolo 2"> = 2 &nbsp;&nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol3.png" alt="Símbolo 3"> = 3 &nbsp;&nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol4.png" alt="Símbolo 4"> = 4 <br>
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol5.png" alt="Símbolo 5"> = 5 &nbsp;&nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol6.png" alt="Símbolo 6"> = 6 &nbsp;&nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol7.png" alt="Símbolo 7"> = 7 &nbsp;&nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol8.png" alt="Símbolo 8"> = 8 &nbsp;&nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol1.png" alt="Símbolo 1"> = 1 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol2.png" alt="Símbolo 2"> = 2 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol3.png" alt="Símbolo 3"> = 3 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol4.png" alt="Símbolo 4"> = 4 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol5.png" alt="Símbolo 5"> = 5 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol6.png" alt="Símbolo 6"> = 6 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol7.png" alt="Símbolo 7"> = 7 &nbsp;&nbsp;
+            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol8.png" alt="Símbolo 8"> = 8 &nbsp;&nbsp;
             <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol9.png" alt="Símbolo 9"> = 9
         </div>
 
         <!-- Área do símbolo -->
-        <div id="symbol-area" style="font-size: 2.5em; margin-top: 20px;">
+        <div id="symbol-area">
             <img id="current-symbol" src="symbol1.png" alt="Símbolo">
         </div>
 
@@ -64,7 +110,7 @@
         <div id="timer">Tempo restante: 90s</div>
 
         <!-- Mensagem de feedback -->
-        <div id="message" style="font-size: 1.8em; margin-top: 20px;"></div>
+        <div id="message" style="font-size: 1.5em; margin-top: 20px;"></div>
     </div>
 
     <script>
@@ -85,11 +131,8 @@
         let interval;
 
         function startTest() {
-            // Esconder tela inicial e mostrar a tela de teste
             document.getElementById("start-screen").classList.add('hidden');
             document.getElementById("test-screen").classList.remove('hidden');
-
-            // Iniciar o teste
             randomizeSymbol();
             interval = setInterval(updateTimer, 1000); 
         }
