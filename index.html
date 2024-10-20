@@ -17,12 +17,25 @@
             display: flex; 
             justify-content: center; 
             flex-wrap: nowrap; 
-            gap: 10px; 
+            gap: 20px; 
             padding: 10px;
             overflow-x: auto;
             background-color: #fff; 
             border-radius: 8px; 
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        }
+        .legend-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .legend img {
+            width: 50px;
+            height: 50px;
+        }
+        .legend span {
+            font-size: 1.5em;
+            margin-top: 5px;
         }
         .hidden { display: none; }
         .numpad { 
@@ -77,15 +90,42 @@
 
         <!-- Legenda de correspondência entre símbolos e números -->
         <div class="legend">
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol1.png" alt="Símbolo 1"> = 1 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol2.png" alt="Símbolo 2"> = 2 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol3.png" alt="Símbolo 3"> = 3 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol4.png" alt="Símbolo 4"> = 4 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol5.png" alt="Símbolo 5"> = 5 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol6.png" alt="Símbolo 6"> = 6 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol7.png" alt="Símbolo 7"> = 7 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol8.png" alt="Símbolo 8"> = 8 &nbsp;&nbsp;
-            <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol9.png" alt="Símbolo 9"> = 9
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol1.png" alt="Símbolo 1">
+                <span>1</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol2.png" alt="Símbolo 2">
+                <span>2</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol3.png" alt="Símbolo 3">
+                <span>3</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol4.png" alt="Símbolo 4">
+                <span>4</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol5.png" alt="Símbolo 5">
+                <span>5</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol6.png" alt="Símbolo 6">
+                <span>6</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol7.png" alt="Símbolo 7">
+                <span>7</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol8.png" alt="Símbolo 8">
+                <span>8</span>
+            </div>
+            <div class="legend-item">
+                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol9.png" alt="Símbolo 9">
+                <span>9</span>
+            </div>
         </div>
 
         <!-- Área do símbolo -->
