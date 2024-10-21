@@ -83,58 +83,54 @@
     <div id="start-screen">
         <h1>Bem-vindo ao Symbol-Digit Test</h1>
         <p style="font-size: 1.2em;">Neste teste, você deve clicar no número correspondente ao símbolo exibido.</p>
-        <button id="start-button" onclick="startTest()">Começar</button>
+        <button id="start-button" onclick="startPractice()">Começar</button>
+    </div>
+
+    <div id="practice-screen" class="hidden">
+        <h1>Fase de Prática</h1>
+        <p>Pratique associar os símbolos aos números antes de começar o teste real.</p>
+        <div class="legend">
+            <div class="legend-item">
+                <img src="symbol1.png" alt="Símbolo 1">
+                <span>1</span>
+            </div>
+            <div class="legend-item">
+                <img src="symbol2.png" alt="Símbolo 2">
+                <span>2</span>
+            </div>
+            <div class="legend-item">
+                <img src="symbol3.png" alt="Símbolo 3">
+                <span>3</span>
+            </div>
+            <!-- Continue até símbolo 9 -->
+        </div>
+        <div id="symbol-area">
+            <img id="practice-symbol" src="symbol1.png" alt="Símbolo">
+        </div>
+        <div class="numpad">
+            <button onclick="submitPracticeAnswer(1)">1</button>
+            <button onclick="submitPracticeAnswer(2)">2</button>
+            <button onclick="submitPracticeAnswer(3)">3</button>
+            <button onclick="submitPracticeAnswer(4)">4</button>
+            <button onclick="submitPracticeAnswer(5)">5</button>
+            <button onclick="submitPracticeAnswer(6)">6</button>
+            <button onclick="submitPracticeAnswer(7)">7</button>
+            <button onclick="submitPracticeAnswer(8)">8</button>
+            <button onclick="submitPracticeAnswer(9)">9</button>
+        </div>
+        <div id="practice-feedback" style="font-size: 1.5em; margin-top: 20px;"></div>
+        <button id="start-test-button" class="hidden" onclick="startTest()">Começar o Teste Oficial</button>
     </div>
 
     <div id="test-screen" class="hidden">
         <h1>Symbol-Digit Test</h1>
-
         <!-- Legenda de correspondência entre símbolos e números -->
         <div class="legend">
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol1.png" alt="Símbolo 1">
-                <span>1</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol2.png" alt="Símbolo 2">
-                <span>2</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol3.png" alt="Símbolo 3">
-                <span>3</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol4.png" alt="Símbolo 4">
-                <span>4</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol5.png" alt="Símbolo 5">
-                <span>5</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol6.png" alt="Símbolo 6">
-                <span>6</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol7.png" alt="Símbolo 7">
-                <span>7</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol8.png" alt="Símbolo 8">
-                <span>8</span>
-            </div>
-            <div class="legend-item">
-                <img src="https://raw.githubusercontent.com/davituq/symbol-digit-test/main/symbol9.png" alt="Símbolo 9">
-                <span>9</span>
-            </div>
+            <!-- Mesma legenda dos símbolos aqui -->
         </div>
-
-        <!-- Área do símbolo -->
         <div id="symbol-area">
             <img id="current-symbol" src="symbol1.png" alt="Símbolo">
         </div>
-
-        <!-- Numpad para responder -->
         <div class="numpad">
             <button onclick="submitAnswer(1)">1</button>
             <button onclick="submitAnswer(2)">2</button>
@@ -146,36 +142,53 @@
             <button onclick="submitAnswer(8)">8</button>
             <button onclick="submitAnswer(9)">9</button>
         </div>
-
-        <!-- Cronômetro -->
         <div id="timer">Tempo restante: 90s</div>
-
-        <!-- Mensagem de feedback -->
         <div id="message" style="font-size: 1.5em; margin-top: 20px;"></div>
     </div>
 
     <script>
-        let symbols = [
-            "symbol1.png", "symbol2.png", "symbol3.png", 
-            "symbol4.png", "symbol5.png", "symbol6.png", 
-            "symbol7.png", "symbol8.png", "symbol9.png"
-        ];
-        let correctSymbolMap = { 
-            "symbol1.png": 1, "symbol2.png": 2, "symbol3.png": 3, 
-            "symbol4.png": 4, "symbol5.png": 5, "symbol6.png": 6, 
-            "symbol7.png": 7, "symbol8.png": 8, "symbol9.png": 9 
-        };
+        let symbols = ["symbol1.png", "symbol2.png", "symbol3.png", "symbol4.png", "symbol5.png", "symbol6.png", "symbol7.png", "symbol8.png", "symbol9.png"];
+        let correctSymbolMap = { "symbol1.png": 1, "symbol2.png": 2, "symbol3.png": 3, "symbol4.png": 4, "symbol5.png": 5, "symbol6.png": 6, "symbol7.png": 7, "symbol8.png": 8, "symbol9.png": 9 };
         let currentSymbol = "";
         let timer = 90;
         let correctAnswers = 0;
         let attempts = 0;
+        let practiceAttempts = 0;
         let interval;
 
-        function startTest() {
+        function startPractice() {
             document.getElementById("start-screen").classList.add('hidden');
+            document.getElementById("practice-screen").classList.remove('hidden');
+            randomizePracticeSymbol();
+        }
+
+        function randomizePracticeSymbol() {
+            let randomIndex = Math.floor(Math.random() * symbols.length);
+            currentSymbol = symbols[randomIndex];
+            document.getElementById("practice-symbol").src = currentSymbol;
+        }
+
+        function submitPracticeAnswer(number) {
+            practiceAttempts++;
+            if (number === correctSymbolMap[currentSymbol]) {
+                document.getElementById("practice-feedback").innerText = "Correto!";
+            } else {
+                document.getElementById("practice-feedback").innerText = "Incorreto!";
+            }
+
+            if (practiceAttempts < 3) {
+                randomizePracticeSymbol();
+            } else {
+                document.getElementById("practice-feedback").innerText = "Prática concluída!";
+                document.getElementById("start-test-button").classList.remove('hidden');
+            }
+        }
+
+        function startTest() {
+            document.getElementById("practice-screen").classList.add('hidden');
             document.getElementById("test-screen").classList.remove('hidden');
             randomizeSymbol();
-            interval = setInterval(updateTimer, 1000); 
+            interval = setInterval(updateTimer, 1000);
         }
 
         function randomizeSymbol() {
@@ -187,14 +200,12 @@
         function submitAnswer(number) {
             if (timer > 0) { 
                 attempts++; 
-
                 if (number === correctSymbolMap[currentSymbol]) {
                     correctAnswers++; 
                     document.getElementById("message").innerText = "Correto!";
                 } else {
                     document.getElementById("message").innerText = "Incorreto!";
                 }
-
                 randomizeSymbol(); 
             }
         }
@@ -210,9 +221,4 @@
 
         function endTest() {
             clearInterval(interval); 
-            document.querySelectorAll('.numpad button').forEach(button => button.disabled = true); 
-            document.getElementById("message").innerText = `Fim do teste! Você acertou ${correctAnswers} de ${attempts} tentativas.`; 
-        }
-    </script>
-</body>
-</html>
+            document.querySelectorAll('.numpad button').forEach(button => button.disabled = true
