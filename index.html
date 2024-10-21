@@ -127,6 +127,19 @@
         <!-- Legenda de correspondência entre símbolos e números -->
         <div class="legend">
             <!-- Mesma legenda dos símbolos aqui -->
+            <div class="legend-item">
+                <img src="symbol1.png" alt="Símbolo 1">
+                <span>1</span>
+            </div>
+            <div class="legend-item">
+                <img src="symbol2.png" alt="Símbolo 2">
+                <span>2</span>
+            </div>
+            <div class="legend-item">
+                <img src="symbol3.png" alt="Símbolo 3">
+                <span>3</span>
+            </div>
+            <!-- Continue até símbolo 9 -->
         </div>
         <div id="symbol-area">
             <img id="current-symbol" src="symbol1.png" alt="Símbolo">
@@ -137,7 +150,7 @@
             <button onclick="submitAnswer(3)">3</button>
             <button onclick="submitAnswer(4)">4</button>
             <button onclick="submitAnswer(5)">5</button>
-            <button onclick="submitAnswer(6)">6</button>
+            <button onclick="submitAnswer(6)">6"></button>
             <button onclick="submitAnswer(7)">7</button>
             <button onclick="submitAnswer(8)">8</button>
             <button onclick="submitAnswer(9)">9</button>
@@ -221,4 +234,9 @@
 
         function endTest() {
             clearInterval(interval); 
-            document.querySelectorAll('.numpad button').forEach(button => button.disabled = true
+            document.querySelectorAll('.numpad button').forEach(button => button.disabled = true); 
+            document.getElementById("message").innerText = `Fim do teste! Você acertou ${correctAnswers} de ${attempts} tentativas.`; 
+        }
+    </script>
+</body>
+</html>
